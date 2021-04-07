@@ -3,13 +3,15 @@
         <div :style="main">
             <div>Left</div>
             <div>Middle</div>
-            <div>
                 <!-- <d-button-group> -->
-                    <d-button @click="clicked1" @deactivated="deactivation">Login</d-button>
+                    <!-- <d-button @click="clicked1" @deactivated="deactivation">Login</d-button> -->
+            
                     <!-- <d-button @click="clicked2">Logout</d-button> -->
                 <!-- </d-button-groupo> -->
-            </div>
         </div>
+
+        <top-bar-login />
+
     </div>
 </template>
 

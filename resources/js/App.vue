@@ -1,3 +1,6 @@
 <template>
-    <router-view />
+    <d-app>
+        <top-bar />
+        <router-view />
+    </d-app>
 </template>

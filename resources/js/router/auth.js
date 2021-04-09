@@ -1,5 +1,5 @@
 import Login from '../pages/auth/Login.vue'
-// import Categories from '../pages/admin/Categories.vue'
+import Categories from '../pages/admin/Categories.vue'
 
 export default [
     {
@@ -7,9 +7,9 @@ export default [
         name: 'login',
         component: Login
     },
-    // {
-    //     path: '/admin/categories',
-    //     name: 'categories',
-    //     component: Categories
-    // },
+    {
+        path: '/admin/categories',
+        name: 'categories',
+        component: Categories
+    },
 ]

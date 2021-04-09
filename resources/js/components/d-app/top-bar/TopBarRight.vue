@@ -1,6 +1,7 @@
 <template>
-    <div v-if="!authenticated" @click="this.$router.push('/login')" :style="loginS">Login</div>
-    <div v-else :style="{ width: '80px' }"></div>
+    <div v-if="!authenticated && !unverified" @click="this.$router.push('/login')" :style="authButtonS">Login</div>
+    <div v-else-if="unverified" style="width: 82px;"></div>
+    <div v-else @click="logout" :style="authButtonS">Logout</div>
 </template>
 
 <script>
@@ -11,7 +12,8 @@ export default {
     setup() {
         const store = useStore()
         const authenticated = computed(() => store.getters['auth/authenticated'])
-        const loginS = {
+        const unverified = computed(() => store.getters['auth/unverified'])
+        const authButtonS = {
             width: '80px',
             height: '40px',
             lineHeight: '40px',
@@ -19,10 +21,13 @@ export default {
             cursor: 'pointer',
             border: '1px solid purple',
         }
+            const logout = () => store.dispatch('auth/logout').then(response => console.log(response))
 
         return {
             authenticated,
-            loginS,
+            unverified,
+            authButtonS,
+            logout
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div :style="container">
         <div :style="main">
-            <div>Left</div>
+            <top-bar-left />
             <div>Middle</div>
             <top-bar-right />
         </div>

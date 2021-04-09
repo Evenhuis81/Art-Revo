@@ -14,20 +14,24 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
 setup() {
     const store = useStore()
+    const router = useRouter()
     const form = {
         email: "",
         password: ""
     }
     const login = () => {
         store.dispatch('auth/login', form)
-            .then(response => console.log(response))
-            .catch(error => console.log(error))
+            .then(response => {
+                console.log(response)
+                router.push('/')
+            }).catch(error => console.log(error))
     }
     const logout = () => {
         store.dispatch('auth/logout').then(response => console.log(response))

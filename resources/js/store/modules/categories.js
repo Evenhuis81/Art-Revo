@@ -10,10 +10,7 @@ export default {
             state.categories = categories
         },
         removeCategory(state, id) {
-
-            const removeIndex = state.categories.map(item => item.id)
-                       .indexOf(id);
-
+            const removeIndex = state.categories.map(item => item.id).indexOf(id);
             state.categories.splice(removeIndex, 1);
         }
     },
@@ -29,8 +26,11 @@ export default {
             axios.post('/api/categories', payload)
         },
         deleteCategory({ commit }, id) {
-            // axios.post('api/categories/{id}').then(response => console.log(response.data))
-            commit('removeCategory', id)
+            return axios.post('api/categories/{id}').then(response => {
+                commit('removeCategory', id)
+                return response.data.message
+            })
+            
         }
     },
     getters: {},

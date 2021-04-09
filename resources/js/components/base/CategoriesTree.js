@@ -98,7 +98,7 @@
              processedBranches,
              selectNode,
              createToggler,
-             title: h('h4', {class: 'mb-3'}, 'Sectoren'),
+             title: h('h4', {class: 'mb-3'}, 'Categorieën'),
          };
      },
      render() {

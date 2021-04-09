@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
+import auth from './auth'
 
 const routes = [
   {
@@ -7,6 +8,7 @@ const routes = [
     name: 'home',
     component: Home,
   },
+  ...auth,
   { path: '/:pathMatch(.*)*', name: 'not-found', component: { template: `<div>PageNotFound</div>`} },
 ]
 

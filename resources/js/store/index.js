@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
-import styles from './modules/styles.js'
+import styles from './modules/styles'
+import auth from './modules/auth'
 
 export default createStore({
     state: () => ({}),
@@ -8,5 +9,6 @@ export default createStore({
     getters: {},
     modules: {
         styles,
+        auth
     }
 })

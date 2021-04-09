@@ -7,6 +7,12 @@ const app = createApp(App)
 app.use(store)
 app.use(router)
 
+let token = localStorage.getItem('token')
+if (token) {
+    store.state.auth.token = true
+    store.dispatch('auth/verify', token)
+}
+
 const files = require.context('./components', true, /\.vue$/i)
 files.keys().map(key => app.component(key.split('/').pop().split('.')[0], files(key).default))
 

@@ -24,10 +24,17 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'onjuiste e-mail of wachtwoord'], 401);
         }
 
-        return $this->respondWithToken($token);
+        $user = auth()->user();
+
+        return response()->json([
+            'token' => $token,
+            'user' => $user,
+            'message' => 'succesvol ingelogd',
+        ], 200);
+        // return $this->respondWithToken($token);
     }
 
     /**
@@ -49,7 +56,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'successvol uitgelogd'], 200);
     }
 
     /**

@@ -12,6 +12,7 @@ if (token) {
     store.state.auth.token = true
     store.dispatch('auth/verify', token)
 }
+store.dispatch('categories/getCategories')
 
 const files = require.context('./components', true, /\.vue$/i)
 files.keys().map(key => app.component(key.split('/').pop().split('.')[0], files(key).default))

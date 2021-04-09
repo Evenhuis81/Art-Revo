@@ -1,7 +1,7 @@
 <template>
     <div style="display: flex">
         <div style="flex: 50%">
-            <categories-tree v-if="categories" :data="categories" @selected="setNode" />
+            <sector-tree v-if="categories" :data="categories" @selected="setNode" />
         </div>
         <div style="flex: 50%">
             <div v-if="selectedNode">
@@ -19,15 +19,18 @@
 <script>
 import { computed, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
-import {CategoriesTree} from '../../components/base/CategoriesTree'
+import SectorTree from '../../components/base/CategoriesTree'
 
 export default {
-    components: { CategoriesTree },
+    components: { SectorTree },
     setup() {
         const store = useStore()
         const editMode = ref(false)
         const selectedNode = ref(null)
-        const setNode = node => selectedNode.value = node
+        const setNode = node => {
+            console.log(node)
+            selectedNode.value = node
+        }
         const remove = nodeId => store.dispatch('categories/deleteCategory', nodeId)
 
         return {

@@ -3,6 +3,9 @@
         <router-link to="/admin/categories" custom v-slot="{ isActive, navigate }">
             <div @click="navigate" :style="[authButtonS, { backgroundColor: isActive ? '#eee' : 'white' }]">Manage Categories</div>
         </router-link>
+        <router-link to="/subsectors" custom v-slot="{ isActive, navigate }">
+            <div @click="navigate" :style="[authButtonS, { backgroundColor: isActive ? '#eee' : 'white' }]">Subsectors</div>
+        </router-link>
         
     </div>
 </template>

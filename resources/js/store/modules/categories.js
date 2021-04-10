@@ -26,10 +26,10 @@ export default {
             axios.post('/api/categories', payload)
         },
         deleteCategory({ commit }, id) {
-            return axios.post('api/categories/{id}').then(response => {
+            // return axios.post('api/categories/{id}').then(response => {
                 commit('removeCategory', id)
-                return response.data.message
-            })
+                // return response.data.message
+            // })
             
         }
     },

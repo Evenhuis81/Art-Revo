@@ -1,13 +1,14 @@
-import { computed, h, onMounted, ref } from "vue"
+import { h, onMounted, ref } from "vue"
 
 export default {
     props: ['data'],
     setup(props) {
         const nodes = ref(props.data)
         const rootIndexes = []
-        const active = ref(false)
         nodes.value.forEach(node => {
+            // console.time('A')
             if (node.parent_id === 0) rootIndexes.push(nodes.value.map(item => item.id).indexOf(node.id))
+            // console.timeEnd('A')
             node.display = node.parent_id === 0 ? 'block' : 'none'
             node.opacity = node.parent_id === 0 ? '0' : '1'
             node.width = '500px'
@@ -18,7 +19,7 @@ export default {
             node.textAlign = 'center'
             node.cursor = 'pointer'
             node.border = '1px solid purple'
-            // node.backgroundColor = 'white'
+            node.backgroundColor = 'white'
         })
         const changeColor = () => {
             nodes.value[0].color = 'blue'
@@ -26,35 +27,18 @@ export default {
         const removeElement = () => {
             nodes.value.splice(4, 1)
         }
-        const mouseEntered = (event, nodeId) => {
+        // const mouseEntered = nodeId => {
             // console.time('B')
-            // event.target.style.backgroundColor = 'blue'
             // setTimeout(() => {
-                active.value = true
-                // const node = nodes.value.map(item => item.id).indexOf(nodeId)
-                // nodes.value[node].backgroundColor = 'blue'
-            // }, 1000)
+            //     const node = nodes.value.map(item => item.id).indexOf(nodeId)
+            //     nodes.value[node].backgroundColor = 'blue'
+            // }, 0)
             // const node = nodes.value.map(item => item.id).indexOf(nodeId)
             // nodes.value[node].backgroundColor = 'blue'
             // console.timeEnd('B')
-        }
-        // const mouseEntered = e => {
-        //     e.target.style.backgroundColor = 'blue'
         // }
-        const mouseLeft = (event, nodeId) => {
-            active.value = false
-            // event.target.style.backgroundColor = 'white'
-            // const node = nodes.value.map(item => item.id).indexOf(nodeId)
-            //     nodes.value[node].backgroundColor = 'white'
-        }
-        const computedStyle = computed(() => ({ backgroundColor: active.value ? 'blue' : 'orange' }))
-        const clicked = (parentId) => {
-            const childIndexes = []
-            console.time('DF')
-            nodes.value.filter(branch => branch.parent_id === parentId).forEach(ele => childIndexes.push(nodes.value.map(el => el.id).indexOf(ele.id)))
-            console.log(childIndexes)
-            console.timeEnd('DF')
-            childIndexes.forEach(childIndex => nodes.value[childIndex].display = 'block')
+        const mouseEntered = e => {
+            e.target.style.backgroundColor = 'blue'
         }
 
         onMounted(() => {
@@ -70,20 +54,18 @@ export default {
             changeColor,
             removeElement,
             mouseEntered,
-            mouseLeft,
-            clicked,
-            computedStyle,
         }
     },
     render() {
         console.time('render')
-        const makeTemplate = (elements, parentId = 0, level = 0) => {
+        const makeTemplate = (elements, parentId = 0) => {
             const out = []
             elements.forEach(element => {
                 if (element.parent_id === parentId) {
-                    const children = makeTemplate(elements, element.id, level + 1)
-                    // if (children.length) children.unshift(h('span', 'icon'))
-                    out.push(h('div', { key: 'element' + element.id, style: [this.computedStyle, {
+                    const children = makeTemplate(elements, element.id)
+                    if (children.length) children.unshift(h('span', 'icon'))
+                    children.unshift(element.name)
+                    out.push(h('div', { key: 'element' + element.id, style: {
                             display: element.display,
                             color: element.color,
                             opacity: element.opacity,
@@ -91,18 +73,15 @@ export default {
                             width: element.width,
                             height: element.height,
                             marginTop: element.marginTop,
-                            marginLeft: level * 20 + 10 + 'px',
+                            marginLeft: element.marginLeft,
                             lineHeight: element.lineHeight,
                             textAlign: element.textAlign,
                             cursor: element.cursor,
                             border: element.border,
-                            // backgroundColor: element.backgroundColor,
-                        }],
-                        onMouseenter: event => this.mouseEntered(event, element.id),
-                        onMouseleave: event => this.mouseLeft(event, element.id),
-                        onClick: () => this.clicked(element.id)
-                    }, [element.name]))
-                    children.forEach(child => out.push(child))
+                            backgroundColor: element.backgroundColor,
+                        },
+                        onMouseenter: () => this.mouseEntered(element.id)
+                    }, children))
                 }
             });
             return out

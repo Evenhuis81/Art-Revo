@@ -17,8 +17,6 @@ export default {
     actions: {
         getCategories({ commit }) {
             axios.get('/api/categories').then(response => {
-                // const clone = JSON.parse(JSON.stringify(response.data));
-                // const categories = makeTree(clone)
                 commit('setCategories', response.data)
             })
         },
@@ -26,10 +24,10 @@ export default {
             axios.post('/api/categories', payload)
         },
         deleteCategory({ commit }, id) {
-            // return axios.post('api/categories/{id}').then(response => {
+            return axios.post(`/api/categories/${id}`).then(response => {
                 commit('removeCategory', id)
-                // return response.data.message
-            // })
+                return response.data.message
+            })
             
         }
     },

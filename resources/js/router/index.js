@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
-import Subsectors from '../pages/Subsectors.vue'
 import auth from './auth'
+import admin from './admin'
 
 const routes = [
   {
@@ -9,11 +9,8 @@ const routes = [
     name: 'home',
     component: Home,
   },
-  {
-    path: '/subsectors',
-    component: Subsectors
-  },
   ...auth,
+  ...admin,
   { path: '/:pathMatch(.*)*', name: 'not-found', component: { template: `<div>PageNotFound</div>`} },
 ]
 

@@ -1,15 +1,16 @@
 import Login from '../pages/auth/Login.vue'
-import Categories from '../pages/admin/Categories.vue'
 
 export default [
     {
         path: '/login',
         name: 'login',
-        component: Login
+        component: Login,
+        // meta: { guestRouteOnly: true }
     },
-    {
-        path: '/admin/categories',
-        name: 'categories',
-        component: Categories
-    },
+    // {
+        // path: '/register',
+        // name: 'register',
+        // component: Register,
+        // meta: { guestRouteOnly: true }
+    // },
 ]

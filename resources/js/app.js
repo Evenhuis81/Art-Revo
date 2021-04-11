@@ -3,18 +3,15 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 
+import { appStarter } from './bootstrap'
+
 import { SvgIcon } from "./components/base/SvgIcon"
 
 const app = createApp(App)
 app.use(store)
 app.use(router)
 
-let token = localStorage.getItem('token')
-if (token) {
-    store.state.auth.token = true
-    store.dispatch('auth/verify', token)
-}
-store.dispatch('categories/getCategories')
+appStarter(store)
 
 app.component('SvgIcon', SvgIcon)
 

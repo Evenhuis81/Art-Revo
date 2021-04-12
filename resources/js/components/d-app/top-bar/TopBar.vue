@@ -2,7 +2,7 @@
     <div :style="container">
         <div :style="main">
             <top-bar-left />
-            <div>Middle</div>
+            <div>Links</div>
             <top-bar-right />
         </div>
     </div>

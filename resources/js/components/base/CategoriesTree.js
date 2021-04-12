@@ -93,15 +93,20 @@
                  icon: branch.icon,
                  onClick: () => toggleNode(branch),
              });
+
+        const mouseHover = branch =>
+             branch.categoryStyle.marginLeft = '100px'
  
          return {
              processedBranches,
              selectNode,
              createToggler,
+             mouseHover,
              title: h('h4', {class: 'mb-3'}, 'Categorieën'),
          };
      },
      render() {
+         console.time('AB')
          /**
           *
           * @param {Branch} branch
@@ -122,6 +127,7 @@
                          {
                              key: 'category' + branch.id,
                              onClick: () => this.selectNode(branch),
+                             onMouseenter: () => this.mouseHover(branch),
                              class: 'sector-bottom',
                          },
                          [branch.name]
@@ -145,7 +151,7 @@
          };
  
          const tree = createBranch(this.processedBranches);
- 
+         console.timeEnd('AB')
          return [this.title, tree];
      },
  });

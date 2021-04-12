@@ -1,6 +1,8 @@
 <template>
     <d-app>
         <top-bar />
-        <router-view />
+        <div style="margin-top: 100px;">
+            <router-view />
+        </div>
     </d-app>
 </template>

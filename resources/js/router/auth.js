@@ -1,7 +1,6 @@
 import Login from '../pages/auth/Login.vue'
-import Categories from '../pages/admin/Categories.vue'
 import Furniture from '../pages/admin/Furniture.vue'
-import RightBar from '../components/d-app/right-bar/RightBar.vue'
+import RightBar from '../pages/admin/RightBar.vue'
 
 export default [
     {

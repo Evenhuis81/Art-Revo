@@ -25,7 +25,7 @@ export default {
                 ).then(response => {
                     commit('setToken', response.data.token);
                     commit('setUser', response.data.user);
-                    return response.data.message;
+                    return response.data;
                 }).catch(error => { throw error.response.data.message })
         },
         verify({ commit }, token) {

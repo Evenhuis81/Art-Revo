@@ -6,3 +6,12 @@
         </div>
     </d-app>
 </template>
+
+<script>
+import BarLeft from './pages/admin/BarLeft'
+import BarRight from './pages/admin/BarRight'
+
+export default {
+    components: { BarLeft, BarRight }
+}
+</script>

@@ -7,10 +7,12 @@
 <script>
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
     setup() {
         const store = useStore()
+        const router = useRouter()
         const authenticated = computed(() => store.getters['auth/authenticated'])
         const unverified = computed(() => store.getters['auth/unverified'])
         const authButtonS = {
@@ -21,7 +23,10 @@ export default {
             cursor: 'pointer',
             border: '1px solid purple',
         }
-            const logout = () => store.dispatch('auth/logout').then(response => console.log(response))
+            const logout = () => store.dispatch('auth/logout').then(response => {
+                console.log(response)
+                router.push('/')
+            })
 
         return {
             authenticated,

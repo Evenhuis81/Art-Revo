@@ -10,9 +10,8 @@ import { SvgIcon } from "./components/base/SvgIcon"
 const app = createApp(App)
 app.use(store)
 app.use(router)
-// router.beforeEach(BeforeEach)
 
-appStarter(store)
+appStarter(store, router)
 
 app.component('SvgIcon', SvgIcon)
 

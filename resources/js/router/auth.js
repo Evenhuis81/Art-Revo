@@ -5,7 +5,7 @@ export default [
         path: '/login',
         name: 'login',
         component: Login,
-        // meta: { guestRouteOnly: true }
+        meta: { requiresGuest: true }
     },
     // {
     //     path: '/register',

@@ -4,7 +4,8 @@ export default {
     namespaced: true,
     state: () => ({
         token: false,
-        user: null,
+        user: false,
+        userInfo: null
     }),
     mutations: {
         setToken(state, token) {
@@ -12,7 +13,8 @@ export default {
             state.token = true
         },
         setUser(state, user) {
-            state.user = user
+            state.user = !state.user
+            state.userInfo = user
         },
         removeToken(state) {
             localStorage.removeItem('token')
@@ -29,9 +31,14 @@ export default {
                 }).catch(error => { throw error.response.data.message })
         },
         verify({ commit }, token) {
-            axios({ method: 'post', url: '/api/auth/me', headers: { 'Authorization': 'Bearer ' + token } })
-                .then(response => commit('setUser', response.data)
-                ).catch(() => commit('removeToken'))
+            return axios.post('/api/auth/me')
+                .then(response => {
+                    commit('setUser', response.data)
+                    return 'succes'
+                }).catch(() => {
+                    commit('removeToken')
+                    throw 'fail'
+                })
         },
         logout({ commit }) {
             return axios({ method: 'post', url: '/api/auth/logout', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
@@ -40,13 +47,14 @@ export default {
                     commit('setUser', null)
                     return response.data.message
                 }).catch(() => {
+                    // error handler
                     commit('removeToken')
                     commit('setUser', null)
                 })
         }
     },
     getters: {
-        unverified: state => (state.token && !state.user),
+        unverified: state => state.token && !state.user,
         authenticated: state => state.token && state.user
     }
 }

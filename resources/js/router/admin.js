@@ -5,10 +5,11 @@ export default [
     {
         path: '/admin/:id',
         component: Admin,
+        meta: { requiresAuth: true },
         children: [
             {
                 path: 'furniture',
-                component: Furniture
+                component: Furniture,
             }
         ]
     }

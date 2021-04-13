@@ -9,7 +9,7 @@ export const SvgIcon = {
         }
     },
     setup(props) {
-        const svg = computed(() => getIcon(props.icon)) 
+        const svg = computed(() => getIcon(props.icon))
 
         return {
             svg

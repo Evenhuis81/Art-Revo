@@ -9,9 +9,7 @@
         <router-link to="/admin/1/furniture" custom v-slot="{ isActive, navigate }">
             <div @click="navigate" :style="[authButtonS, { backgroundColor: isActive ? '#eee' : 'white' }]">Furniture</div>
         </router-link>
-        
     </div>
-    <router-view></router-view>
 </template>
 
 <script>

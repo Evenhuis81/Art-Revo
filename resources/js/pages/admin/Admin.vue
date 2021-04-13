@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import BarRight from './BarRight.vue'
-import BarLeft from './BarLeft.vue'
+import BarRight from './AdminBarRight.vue'
+import BarLeft from './AdminBarLeft.vue'
 
 export default {
     components: { BarRight, BarLeft },

@@ -41,7 +41,7 @@ export default {
                 })
         },
         logout({ commit }) {
-            return axios({ method: 'post', url: '/api/auth/logout', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
+            return axios.post('/api/auth/logout')
                 .then(response => {
                     commit('removeToken')
                     commit('setUser', null)

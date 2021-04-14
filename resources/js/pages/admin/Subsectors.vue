@@ -7,7 +7,7 @@
 <script>
 import { computed } from '@vue/runtime-core'
 import { useStore } from 'vuex'
-import DTree from '../components/base/DTree'
+import DTree from '../../components/base/DTree'
 
 export default {
     components: { DTree },

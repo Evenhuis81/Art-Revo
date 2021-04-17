@@ -14,5 +14,4 @@
         "alwaysStrict": true,
         "esModuleInterop": true
     },
-    "include": ["./resources/js/**/*", "./node_modules/cypress", "cypress/**/*.js"]
 }

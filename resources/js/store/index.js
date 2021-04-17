@@ -4,7 +4,9 @@ import auth from './modules/auth'
 import categories from './modules/categories'
 
 export default createStore({
-    state: () => ({}),
+    state: () => ({
+        modal: false
+    }),
     mutations: {},
     actions: {},
     getters: {},

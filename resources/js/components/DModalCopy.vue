@@ -20,6 +20,7 @@ export default {
         }
 
         function windowOnClick(event) {
+            console.log(event.target)
             if (event.target === modal) {
                 toggleModal();
             }

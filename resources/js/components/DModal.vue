@@ -1,8 +1,8 @@
 <template>
     <transition name="fade">
-        <div class="modal">
+        <div v-if="modelValue" ref="modall" class="modal">
             <div class="modal-content">
-                <span @click="$store.state.modal = !$store.state.modal" class="close-button">×</span>
+                <span @click="closeModal()" class="close-button">×</span>
                 <h1>Hello, I am a modal!</h1>
             </div>
         </div>
@@ -10,41 +10,78 @@
 </template>
 
 <script>
-import { onBeforeUnmount, onMounted } from 'vue';
+import { computed, onBeforeUnmount, onMounted, onUpdated, ref, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
-    props: ['trigger'],
-    setup() {
+    props: {
+        modelValue: Boolean
+    },
+    emits: [ 'update:modelValue'],
+    setup(props, { emit }) {
         const store = useStore();
-        const windowOnClick = () => store.state.modal = !store.state.modal;
-        window.addEventListener("click", windowOnClick);
-        onBeforeUnmount(() => window.removeEventListener('click', windowOnClick));
+        const modall = ref(null);
+        watchEffect(() => {
+            if (modall.value) {
+                const windowOnClick = event => {
+                    console.log('windowOnClick');
+                        if (event.target === modall.value) {
+                            window.removeEventListener('click', windowOnClick)
+                            emit('update:modelValue', false);
+                        }
+                    }
+                    if (props.modelValue) {
+                        console.log('activated eventlistener');
+                        window.addEventListener("click", windowOnClick);
+                    }
+                } // => <div></div>
+            }, 
+            {
+                flush: 'post'
+        })
+        const active = ref(false);
+
+        // const closeModal() {
+
+        // }
+        onUpdated(() => {
+            // console.log('updated')
+            
+        })
+        // const onActive = computed(() => {
+            
+        // });
+        // window.addEventListener("click", windowOnClick);
+        // onBeforeUnmount(() => window.removeEventListener('click', windowOnClick));
+
+        return { active, modall };
     },
 }
 </script>
 
 <style scoped>
-/* .fade-enter-active,
+.fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.25s ease;
+    opacity: 1;
+    transform: scale(1.0);
+    transition: opacity 0.25s, transform 0.25s;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-} */
+  transform: scale(1.1);
+}
 .modal {
     position: fixed;
+    z-index: 10;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(1.1);
-    transition:  opacity 0.25s 0s, transform 0.25s;
+    /* transform: scale(1.1); */
+    /* transition: opacity 0.25s, transform 0.25s; */
 }
 .modal-content {
     position: absolute;
@@ -68,10 +105,9 @@ export default {
 .close-button:hover {
     background-color: darkgray;
 }
-.show-modal {
+/* .show-modal {
     opacity: 1;
-    visibility: visible;
     transform: scale(1.0);
-    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-}
+    transition: lity 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+} */
 </style>

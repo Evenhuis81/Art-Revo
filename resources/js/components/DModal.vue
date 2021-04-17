@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div v-if="modelValue" ref="modall" class="modal">
+        <div v-if="modelValue" ref="modal" class="modal">
             <div class="modal-content">
                 <span @click="closeModal()" class="close-button">×</span>
                 <h1>Hello, I am a modal!</h1>
@@ -10,8 +10,7 @@
 </template>
 
 <script>
-import { computed, onBeforeUnmount, onMounted, onUpdated, ref, watchEffect } from 'vue';
-import { useStore } from 'vuex';
+import { onUpdated, ref } from 'vue';
 
 export default {
     props: {
@@ -19,44 +18,29 @@ export default {
     },
     emits: [ 'update:modelValue'],
     setup(props, { emit }) {
-        const store = useStore();
-        const modall = ref(null);
-        watchEffect(() => {
-            if (modall.value) {
-                const windowOnClick = event => {
-                    console.log('windowOnClick');
-                        if (event.target === modall.value) {
-                            window.removeEventListener('click', windowOnClick)
-                            emit('update:modelValue', false);
-                        }
-                    }
-                    if (props.modelValue) {
-                        console.log('activated eventlistener');
-                        window.addEventListener("click", windowOnClick);
-                    }
-                } // => <div></div>
-            }, 
-            {
-                flush: 'post'
-        })
-        const active = ref(false);
+        const modal = ref(null);
 
-        // const closeModal() {
+        const windowOnClick = event => {
+            if (event.target === modal.value) {
+                window.removeEventListener('click', windowOnClick);
+                emit('update:modelValue', false);
+            };
+        };
 
-        // }
+        const closeModal = () => {
+            window.removeEventListener('click', windowOnClick);
+            emit('update:modelValue', false);
+        };
+
         onUpdated(() => {
-            // console.log('updated')
-            
-        })
-        // const onActive = computed(() => {
-            
-        // });
-        // window.addEventListener("click", windowOnClick);
-        // onBeforeUnmount(() => window.removeEventListener('click', windowOnClick));
+            if (props.modelValue && modal.value) {
+                window.addEventListener("click", windowOnClick);
+            };
+        }); 
 
-        return { active, modall };
+        return { modal, closeModal };
     },
-}
+};
 </script>
 
 <style scoped>
@@ -66,7 +50,6 @@ export default {
     transform: scale(1.0);
     transition: opacity 0.25s, transform 0.25s;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
@@ -74,14 +57,12 @@ export default {
 }
 .modal {
     position: fixed;
-    z-index: 10;
+    z-index: 999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* transform: scale(1.1); */
-    /* transition: opacity 0.25s, transform 0.25s; */
 }
 .modal-content {
     position: absolute;
@@ -105,9 +86,4 @@ export default {
 .close-button:hover {
     background-color: darkgray;
 }
-/* .show-modal {
-    opacity: 1;
-    transform: scale(1.0);
-    transition: lity 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-} */
 </style>

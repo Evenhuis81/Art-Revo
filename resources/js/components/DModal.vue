@@ -2,8 +2,8 @@
     <transition name="fade">
         <div v-if="modelValue" ref="modal" class="modal">
             <div class="modal-content">
-                <span @click="closeModal()" class="close-button">×</span>
-                <h1>Hello, I am a modal!</h1>
+                <span v-if="!hideClose" @click="closeModal()" class="close-button">×</span>
+                <slot />
             </div>
         </div>
     </transition>
@@ -14,27 +14,53 @@ import { onUpdated, ref } from 'vue';
 
 export default {
     props: {
-        modelValue: Boolean
+        modelValue: {
+            type: Boolean,
+            required: true,
+        },
+        noCloseOnBackdrop: {
+            type: Boolean,
+            required: false,
+        },
+        noCloseOnEsc: {
+            type: Boolean,
+            required: false,
+        },
+        hideClose: {
+            type: Boolean,
+            required: false,
+        }
     },
     emits: [ 'update:modelValue'],
     setup(props, { emit }) {
+        // get modal HTMLElement for window click event
         const modal = ref(null);
 
-        const windowOnClick = event => {
-            if (event.target === modal.value) {
-                window.removeEventListener('click', windowOnClick);
-                emit('update:modelValue', false);
-            };
-        };
-
-        const closeModal = () => {
-            window.removeEventListener('click', windowOnClick);
+        const removeListeners = () => {
+            if (!props.noCloseOnBackdrop) window.removeEventListener('click', windowOnClick);
+            if (!props.noCloseOnEsc) window.removeEventListener("keyup", windowOnEscapeKeyPress);
             emit('update:modelValue', false);
         };
 
+        const windowOnClick = e => e.target === modal.value ? removeListeners() : '';
+
+        const windowOnEscapeKeyPress = e => {
+            // TODO:: when focus is on input or textarea or others, make escape key loose focus and not close modal
+            // e.preventDefault();
+            const keycode = ((typeof e.keyCode !='undefined' && e.keyCode) ? e.keyCode : e.which);
+            // const isNotCombinedKey = !(e.ctrlKey || e.altKey || e.shiftKey);
+            if (keycode === 27) removeListeners();
+        };
+
+        // close button on modal
+        const closeModal = () => removeListeners();
+
+        // when modal gets activated, add eventlisteners (if needed)
         onUpdated(() => {
+            // right-hand is failsafe check
             if (props.modelValue && modal.value) {
-                window.addEventListener("click", windowOnClick);
+                if (!props.noCloseOnBackdrop) window.addEventListener("click", windowOnClick);
+                if (!props.noCloseOnEsc) window.addEventListener("keyup", windowOnEscapeKeyPress);
             };
         }); 
 
